@@ -73,3 +73,31 @@ func incrementOrderUID(uid string) string {
 	// Преобразование числа обратно в строку
 	return strconv.Itoa(num)
 }
+
+func processFile(filePath string) {
+	// Чтение файла
+	data, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		log.Fatalf("Ошибка при чтении файла: %v", err)
+	}
+
+	// Декодирование JSON
+	var order Order
+	if err := json.Unmarshal(data, &order); err != nil {
+		log.Fatalf("Ошибка декодирования JSON: %v", err)
+	}
+
+	// Изменение order_uid
+	order.OrderUID = incrementOrderUID(order.OrderUID)
+
+	// Кодирование обратно в JSON
+	modifiedData, err := json.Marshal(order)
+	if err != nil {
+		log.Fatalf("Ошибка кодирования JSON: %v", err)
+	}
+
+	// Запись обратно в файл
+	if err := ioutil.WriteFile(filePath, modifiedData, 0644); err != nil {
+		log.Fatalf("Ошибка при записи в файл: %v", err)
+	}
+}

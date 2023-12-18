@@ -14,6 +14,10 @@ jobs:
       - name: Build docker image
         run: docker build . --file Dockerfile --tag cr.yandex/${{ secrets.YC_REGISTRY_ID }}/delivery-service:latest
 
+      # Добавление шага тестирования
+      - name: Run tests
+        run: docker run --rm cr.yandex/${{ secrets.YC_REGISTRY_ID }}/delivery-service:latest go test ./...
+
       - name: Login to YC Registry
         uses: docker/login-action@v3.0.0 
         with:
