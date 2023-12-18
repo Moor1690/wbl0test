@@ -51,7 +51,7 @@ func main() {
 
 		// Отправка сообщения
 		if err := sc.Publish(subject, modifiedData); err != nil {
-			log.Fatalf("Ошибка при отправке сообщения: %v", err)
+			log.Fatalf("Ошибка при отправке сообщения : %v", err)
 		}
 		fmt.Println("Message sent!")
 
