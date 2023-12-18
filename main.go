@@ -46,7 +46,7 @@ func main() {
 
 		// Запись обратно в файл
 		if err := ioutil.WriteFile("./ord1.json", modifiedData, 0644); err != nil {
-			log.Fatalf("Ошибка при записи в файл: %v", err)
+			log.Fatalf("Ошибка при записи в файл : %v", err)
 		}
 
 		// Отправка сообщения
