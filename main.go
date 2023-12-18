@@ -53,7 +53,7 @@ func main() {
 		if err := sc.Publish(subject, modifiedData); err != nil {
 			log.Fatalf("Ошибка при отправке сообщения : %v", err)
 		}
-		fmt.Println("Message sent! ")
+		fmt.Println(" Message sent! ")
 
 		// Пауза в 5 секунд
 		time.Sleep(5 * time.Second)
