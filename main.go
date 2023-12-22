@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 	"strconv"
 	"time"
@@ -16,6 +17,10 @@ const clusterID = "test-cluster"
 const clientID = "producer-client"
 const subject = "test-subject"
 
+func errorHandler(w http.ResponseWriter, r *http.Request) {
+	http.Error(w, "Error connecting to NATS Streaming", http.StatusInternalServerError)
+}
+
 func main() {
 
 	port := getEnvWithDefault("PORT", 80)
@@ -24,6 +29,8 @@ func main() {
 	sc, err := stan.Connect(clusterID, clientID, stan.NatsURL(connectionString))
 	if err != nil {
 		log.Fatalf("Error connecting to NATS Streaming: %v", err)
+		http.HandleFunc("/", errorHandler)
+
 	}
 	defer sc.Close()
 
