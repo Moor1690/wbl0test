@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 	"strconv"
 	"time"
 
@@ -16,7 +17,11 @@ const clientID = "producer-client"
 const subject = "test-subject"
 
 func main() {
-	sc, err := stan.Connect(clusterID, clientID, stan.NatsURL("nats://host.docker.internal:4222"))
+
+	port := getEnvWithDefault("PORT", 80)
+	connectionString := fmt.Sprintf("nats://host.docker.internal:%d", port)
+	//"nats://host.docker.internal:4222"
+	sc, err := stan.Connect(clusterID, clientID, stan.NatsURL(connectionString))
 	if err != nil {
 		log.Fatalf("Error connecting to NATS Streaming: %v", err)
 	}
@@ -100,4 +105,19 @@ func processFile(filePath string) {
 	if err := ioutil.WriteFile(filePath, modifiedData, 0644); err != nil {
 		log.Fatalf("Ошибка при записи в файл: %v", err)
 	}
+}
+
+func getEnvWithDefault(key string, defaultVal int) int {
+	value, exists := os.LookupEnv(key)
+	if !exists {
+		return defaultVal
+	}
+
+	intValue, err := strconv.Atoi(value)
+	if err != nil {
+		// В случае ошибки конвертации, возвращаем значение по умолчанию
+		return defaultVal
+	}
+
+	return intValue
 }
