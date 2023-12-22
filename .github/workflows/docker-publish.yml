@@ -17,7 +17,7 @@ jobs:
       # Добавление шага тестирования
       - name: Run tests
         run: |
-          docker run --rm -v "${{ github.workspace }}:/app" -w /app golang:1.21 go test ./...
+          docker run -p4222:4222 --rm -v "${{ github.workspace }}:/app" -w /app golang:1.21 go test ./...
 
 
       - name: Login to YC Registry
