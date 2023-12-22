@@ -33,7 +33,7 @@ COPY --from=builder /app/myapp .
 COPY --from=builder /app/ord1.json .
 
 # Откройте порт 8000, если ваше приложение его использует
-EXPOSE 8000
+EXPOSE 4222
 
 # Запустите ваше приложение
 CMD ["./myapp"]
